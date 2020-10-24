@@ -1,4 +1,5 @@
 import React from "react";
+
 import Home from './Exercicio/Home';
 import Produtos from './Exercicio/Produtos';
 
@@ -18,7 +19,7 @@ const App = () => {
         <li><a href="/">Home</a></li>
         <li><a href="/produtos">Produtos</a></li>
       </ul>
-
+     
       <Components />
     </div>
   );
