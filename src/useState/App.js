@@ -1,5 +1,5 @@
 import React from "react";
-import Product from "./useState/Product";
+import Product from "./Product";
 
 const App = () => {
   const [dados, setdados] = React.useState(null);
@@ -14,6 +14,8 @@ const App = () => {
     setdados(resultsJson)
     setCarregando(false);
   }
+
+  React.useEffect(() => {}, );
 
   return (
     <div
