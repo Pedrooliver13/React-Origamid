@@ -1,7 +1,13 @@
-import React from 'react';
+import React from "react";
+import Product from "./Product";
+import { GlobalStorage } from "./GlobalContext";
 
 const App = () => {
-  return <h1>Hello World</h1>;
-}
+  return (
+    <GlobalStorage>
+      <Product />
+    </GlobalStorage>
+  );
+};
 
 export default App;
