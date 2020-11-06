@@ -1,8 +1,9 @@
 import React from 'react';
-import Checkbox from './Input/Checkbox';
+import Desafio from './Input/Desafio';
+
 
 const App = () => {
-  return <Checkbox />;
+  return <Desafio />
 }
 
 export default App;
