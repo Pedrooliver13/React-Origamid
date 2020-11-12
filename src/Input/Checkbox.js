@@ -1,38 +1,37 @@
 import React from "react";
 
 const Checkbox = () => {
-  const [checkbox, setCheckbox] = React.useState(["azul"]);
+  const [check, setCheck] = React.useState([]);
 
-  function handleChange({ target }) {
-    if (target.checked) {
-      setCheckbox([...checkbox, target.value]);
-    } else {
-      setCheckbox(checkbox.filter((item) => item !== target.value));
-    }
+  function handleClick({ target }) {
+    if (target.checked) setCheck([...check, target.value]);
+    else setCheck(check.filter((item) => item !== target.value));
   }
 
   return (
     <div>
-      <label htmlFor="azul">
-        <input
-          id="azul"
-          type="checkbox"
-          value="azul"
-          checked={checkbox.includes("azul")}
-          onChange={handleChange}
-        />
-        Azul
-      </label>
       <label htmlFor="vermelho">
         <input
-          id="vermelho"
           type="checkbox"
+          name="cor"
+          id="vermelho"
           value="vermelho"
-          checked={checkbox.includes("vermelho")}
-          onChange={handleChange}
+          onChange={handleClick}
         />
         Vermelho
       </label>
+      <label htmlFor="azul">
+        <input
+          type="checkbox"
+          name="cor"
+          id="azul"
+          value="azul"
+          onChange={handleClick}
+        />
+        Azul
+      </label>
+
+      {check && check.map((item, index) => <p key={index}>{item}</p>)}
     </div>
   );
 };
