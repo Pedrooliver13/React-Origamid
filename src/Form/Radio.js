@@ -3,16 +3,15 @@ import React from "react";
 const Radio = ({ options, value, setValue, ...props }) => {
   return (
     <>
-      {options.map((optionItem) => (
-        <label key={optionItem}>
+      {options.map((item) => (
+        <label key={item}>
           <input
             type="radio"
-            value={optionItem}
-            checked={value === optionItem}
+            value={item}
             onChange={({ target }) => setValue(target.value)}
             {...props}
           />
-          {optionItem}
+          {item}
         </label>
       ))}
     </>
@@ -20,3 +19,6 @@ const Radio = ({ options, value, setValue, ...props }) => {
 };
 
 export default Radio;
+
+
+  

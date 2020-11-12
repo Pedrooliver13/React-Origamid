@@ -1,55 +1,105 @@
-import React from "react";
+import React from 'react';
+import Radio from './Form/Radio';
 
-import Input from "./Form/Input";
-import Select from "./Form/Select";
-import Radio from "./Form/Radio";
-import Checkbox from "./Form/Checkbox";
+const perguntas = [
+  {
+    pergunta: 'Qual método é utilizado para criar componentes?',
+    options: [
+      'React.makeComponent()',
+      'React.createComponent()',
+      'React.createElement()',
+    ],
+    resposta: 'React.createElement()',
+    id: 'p1',
+  },
+  {
+    pergunta: 'Como importamos um componente externo?',
+    options: [
+      'import Component from "./Component"',
+      'require("./Component")',
+      'import "./Component"',
+    ],
+    resposta: 'import Component from "./Component"',
+    id: 'p2',
+  },
+  {
+    pergunta: 'Qual hook não é nativo?',
+    options: ['useEffect()', 'useFetch()', 'useCallback()'],
+    resposta: 'useFetch()',
+    id: 'p3',
+  },
+  {
+    pergunta: 'Qual palavra deve ser utilizada para criarmos um hook?',
+    options: ['set', 'get', 'use'],
+    resposta: 'use',
+    id: 'p4',
+  },
+];
 
-const App = () => {
-  const [name, setName] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [select, setSelect] = React.useState("");
-  const [eletronicos, setEletronicos] = React.useState("");
-  const [frutas, setFrutas] = React.useState("");
-  const [check, setCheck] = React.useState([]);
-
-  const [inputValues, setInputValues] = React.useState(null);
-
-  function handleClick() {
-    setInputValues([name, password, select, eletronicos, frutas, check]);
-  }
+const Questions = ({ perguntas, setValue }) => {
+  const { id, pergunta, options } = perguntas;
 
   return (
     <>
-      <Input label="Nome" id="nome" value={name} setValue={setName} />
-      <Input
-        label="Senha"
-        id="senha"
-        type="password"
-        value={password}
-        setValue={setPassword}
-      />
-      <Select
-        options={["Smartphone", "Notebook"]}
-        value={select}
-        setValue={setSelect}
-      />
-      <Radio
-        options={["Smarthphone", "Notebook"]}
-        value={eletronicos}
-        setValue={setEletronicos}
-      />
-      <Radio
-        options={["Maça", "Melancia"]}
-        value={frutas}
-        setValue={setFrutas}
-      />
-      <Checkbox options={["sim", "não"]} value={check} setValue={setCheck} />
-      <button onClick={handleClick}>Enviar</button>
-
-      {inputValues &&
-        inputValues.map((item, index) => <p key={index}>{item}</p>)}
+      {perguntas && (
+        <fieldset
+          key={id}
+          style={{ margin: '1rem auto', padding: "1.5rem", border: '1px solid #999' }}
+        >
+          <legend style={{fontWeight: "bold"}}>{pergunta}</legend>
+          <Radio style={{fontSize: ".8rem", }} name={id} options={options} setValue={setValue} />
+        </fieldset>
+      )}
     </>
+  );
+};
+
+const App = () => {
+  const [results, setResults] = React.useState(0);
+  const [slide, setSlide] = React.useState(0);
+  const [radio, setRadio] = React.useState('');
+
+  const respostasCertas = perguntas.reduce((acc, { resposta }) => {
+    return [...acc, resposta];
+  }, []);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    if (respostasCertas.includes(radio)) setResults(results + 1);
+
+    if (slide <= perguntas.length - 1 && radio.length) {
+      setRadio('');
+      setSlide(slide + 1);
+    }
+  }
+
+  function restartExame() {
+    setRadio('');
+    setSlide(0);
+    setResults(0);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {slide <= perguntas.length - 1 ? (
+        <Questions
+          perguntas={perguntas[slide]}
+          setValue={setRadio}
+          active={slide}
+        />
+      ) : (
+        <p>
+          Acertou {results} de {perguntas.length}
+        </p>
+      )}
+
+      {slide > perguntas.length - 1 ? (
+        <button onClick={restartExame}>Reiniciar</button>
+      ) : (
+        <button type="submit">Proxima</button>
+      )}
+    </form>
   );
 };
 
