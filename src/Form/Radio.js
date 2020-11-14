@@ -1,10 +1,10 @@
 import React from "react";
 
-const Radio = ({ options, value, setValue, ...props }) => {
+const Radio = ({ options, value, setValue, style, ...props }) => {
   return (
     <>
       {options.map((item) => (
-        <label key={item}>
+        <label key={item} style={style}>
           <input
             type="radio"
             value={item}

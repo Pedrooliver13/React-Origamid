@@ -1,9 +1,9 @@
 import React from "react";
 import Input from "./Form/Input";
-import useForm from "./Hooks/useForm";
+import useForm from '../Hooks/useForm';
 
 const App = () => {
-  const cep = useForm("cep");
+  const cep = useForm('cep');
 
   function handleSubmit(event) {
     event.preventDefault();
