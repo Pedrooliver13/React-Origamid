@@ -1,40 +1,98 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
 
-const animation = keyframes`
-  to {
-    opacity: 1;
-    background: red;  
-    transform: initial;
+// styledComponents;
+import styled from 'styled-components';
+import GlobalStyled from './Theme/GlobalStyled';
+import Container from './Theme/Container';
+
+const SlideWrapper = styled.section`
+  ${Container}
+  width: 80%;
+  overflow: hidden;
+`;
+
+const Slide = styled.ul`
+  display: flex;
+  list-style: none;
+  margin: 8px;
+  transition: transform 0.5s ease;
+
+  li {
+    flex-shrink: 0;
+    width: 80%;
+    margin: 0 10%;
+    border-radius: 4px;
+    background-color: #eee;
+    text-align: center;
+    padding: 10rem 0;
   }
 `;
 
-const ContainerModal = styled.div`
-  background: #7159c1;
-  opacity: 0;
-  transform: translateY(-20px);
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 
-  animation: ${animation} 0.6s ease forwards;
+  margin: 8px auto;
+`;
+const Button = styled.button`
+  display: flex;
+  background: ${({ background }) => background};
+  color: ${({ color }) => color};
+
+  cursor: pointer;
+  pointer-events: all;
+  padding: 8px 16px;
 `;
 
-const Modal = ({ active, setActive }) => {
+const App = () => {
+  const slideItem = [1, 2, 3, 4];
+  const [position, setPosition] = React.useState(0);
+  const [active, setActive] = React.useState(0);
+  const contentRef = React.useRef();
+
+  React.useEffect(() => {
+    const { width } = contentRef.current.getBoundingClientRect();
+    setPosition(-(width * active));
+  }, [active]);
+
+  function nextSlide() {
+    if(active < slideItem.length - 1)
+      setActive(active + 1);
+  }
+
+  function prevSlide() {
+    if(active > 0)
+      setActive(active - 1);
+  }
+
+  console.log(position);
+
   return (
-    <ContainerModal>
-      <h1>hello WORLD</h1>
-      <button onClick={() => setActive(!active)}>Fechar</button>
-    </ContainerModal>
+    <>
+      <GlobalStyled />
+      <SlideWrapper>
+        <Slide
+          ref={contentRef}
+          style={{ transform: `translateX(${position}px)` }}
+        >
+          {slideItem.map((item) => (
+            <li key={item}>Slide {item}</li>
+          ))}
+        </Slide>
+
+        <ButtonWrapper>
+          <Button background="red" color="white" onClick={prevSlide}>
+            Prev
+          </Button>
+          <Button background="red" color="white" onClick={nextSlide}>
+            Next
+          </Button>
+        </ButtonWrapper>
+      </SlideWrapper>
+    </>
   );
 };
-
-function App() {
-  const [active, setActive] = React.useState(false);
-
-  return (
-    <div>
-      <button onClick={() => setActive(!active)}>Abrir Modal</button>
-      {active && <Modal active={active} setActive={setActive} />}
-    </div>
-  );
-}
 
 export default App;
